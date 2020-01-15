@@ -2,7 +2,7 @@
   <div class="container" v-bind:class="{ disabled: !isReady }" >
       <ul>
           <li>Position:</li>
-          <li><label class="label">Latitude:</label><input class="input" type="text" v-model="position.lat" /></li>
+          <li><label class="label">Latitude:</label><input class="input" type="text" v-model="position.lat" @paste="onPaste" /></li>
           <li><label class="label">Longitude:</label><input class="input" type="text" v-model="position.lon" /></li>
           <li><label class="label">Altitude:</label><input class="input" type="text" v-model="position.alt" /></li>
           <li>Platform:</li>
@@ -55,7 +55,6 @@ export default {
         }
     },
     methods: {
-        // TODO support parsing/import of csv row
         setView() {
             //eslint-disable-next-line
             this.$emit('setView', {
@@ -70,6 +69,13 @@ export default {
                 manualRays: this.manualRays,
                 useTerrain: this.useTerrain
             });
+        },
+        onPaste(e) {
+            const text = e.clipboardData.getData('text');
+            if (text.includes(',')) {
+                // TODO support parsing of csv row
+                e.preventDefault();
+            }
         }
     }
 }
