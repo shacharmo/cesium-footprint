@@ -72,8 +72,18 @@ export default {
         },
         onPaste(e) {
             const text = e.clipboardData.getData('text');
-            if (text.includes(',')) {
+            if (text.includes(',') || text.includes('\t')) {
                 // TODO support parsing of csv row
+                let cells = text.split(',');
+                if (cells.length === 1) {
+                    cells = text.split('\t');
+                }
+                //eslint-disable-next-line
+                console.log(cells);
+                this.$set(this, 'position', { lat: parseFloat(cells[1]), lon: parseFloat(cells[2]), alt: parseFloat(cells[3]) });
+                this.$set(this, 'platform', { heading: parseFloat(cells[4]), pitch: parseFloat(cells[5]), roll: parseFloat(cells[6]) });
+                this.$set(this, 'sensor', { heading: parseFloat(cells[7]), pitch: parseFloat(cells[8]), roll: parseFloat(cells[9]) });
+                this.$set(this, 'fov', { horizontal: parseFloat(cells[10]), vertical: parseFloat(cells[11]) });
                 e.preventDefault();
             }
         }
