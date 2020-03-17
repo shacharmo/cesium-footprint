@@ -32,23 +32,23 @@ export default {
     data() {
         return {
             position: {
-              lat: 35.6,
-              lon: 32.7,
-              alt: 5000,
+              lat: 33.752849611338625, // 35.6,
+              lon: 35.308811215361956, // 32.7,
+              alt: 7879.563591973754, // 5000,
             },
             platform: {
-                heading: 10,
-                pitch: -90,
-                roll: 4
+                heading: 33.79995422293431, // 10,
+                pitch: 3.674428540910062, // -90,
+                roll: 5.703909421063876 // 4
             },
             sensor: {
-                heading: 1,
-                pitch: 2,
-                roll: 3
+                heading: 52.600471510691676, // 1,
+                pitch: -18.87945554167007, //,
+                roll: 0 // 3
             },
             fov: {
-                horizontal: 3,
-                vertical: 3
+                horizontal: 0.6509498741130694, // 3,
+                vertical: 0.34058136873426414 // 3
             },
             manualRays: false,
             useTerrain: true

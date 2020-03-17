@@ -22,6 +22,15 @@ export function pickEllipsoid(cesium, camera, x, y) {
     return cartographicDegrees;
 }
 
+export function pickPosition(cesium, viewer, x, y) {
+    const position = new cesium.Cartesian2(x, y);
+    const cartesian = viewer.scene.pickPosition(position);
+    const cartographicRadians = cesium.Cartographic.fromCartesian(cartesian);
+    const cartographicDegrees = [cesium.Math.toDegrees(cartographicRadians.longitude),
+        cesium.Math.toDegrees(cartographicRadians.latitude)];
+    return cartographicDegrees;
+}
+
 export function safeASin(x) {
     const safeX = Math.min(Math.max(x, -1), 1);
     return Math.asin(safeX);

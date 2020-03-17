@@ -15,7 +15,7 @@
     // import HelloWorld from './components/HelloWorld.vue'
     import Map from './components/map.vue'
     import Input from './components/input.vue'
-    import {pickEllipsoid, getEulerAngles, getEulerAnglersUsingCesium} from './services/footprint.service';
+    import {pickEllipsoid, pickPosition, getEulerAngles, getEulerAnglersUsingCesium} from './services/footprint.service';
 
     export default {
         name: 'app',
@@ -90,17 +90,30 @@
                 //globe.depthTestAgainstTerrain
 
                 const cesium = this.$refs.map.cesium;
-                const scene = this.$refs.map.viewer.scene;
+                const viewer = this.$refs.map.viewer;
+                const scene = viewer.scene;
                 const camera = scene.camera;
                 const width = scene.drawingBufferWidth;
                 const height = scene.drawingBufferHeight;
 
-                const coordinates = [
-                    pickEllipsoid(cesium, camera, 0, 0),
-                    pickEllipsoid(cesium, camera, width, 0),
-                    pickEllipsoid(cesium, camera, width, height),
-                    pickEllipsoid(cesium, camera, 0, height),
-                ];
+                let coordinates = null;
+
+                const useTerrain = true; // TODO get from selection
+                if (useTerrain) {
+                    coordinates = [
+                        pickPosition(cesium, viewer, 1, 1),
+                        pickPosition(cesium, viewer, width - 1, 1),
+                        pickPosition(cesium, viewer, width - 1, height - 1),
+                        pickPosition(cesium, viewer, 1, height - 1),
+                    ];
+                } else {
+                    coordinates = [
+                        pickEllipsoid(cesium, camera, 0, 0),
+                        pickEllipsoid(cesium, camera, width, 0),
+                        pickEllipsoid(cesium, camera, width, height),
+                        pickEllipsoid(cesium, camera, 0, height),
+                    ];
+                }
                 coordinates.push(coordinates[0]);
 
                 const center = pickEllipsoid(cesium, camera, width / 2, height / 2);
